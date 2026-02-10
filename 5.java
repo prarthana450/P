@@ -12,7 +12,7 @@ class Point {
     }
 }
 
-public class Pri {
+public class Square {
     public static void main(String[] args) {
 
         Point p1 = new Point(20, 10);
