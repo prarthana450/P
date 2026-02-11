@@ -1,19 +1,19 @@
 package info;
-class Calculator {
-    int n1,n2;
-    void sum(){
-        int add=n1+n2;
-        System.out.println("sum:"+add);
+class Mobile {
+    String brand;
+    int price;
+    void details(){
+        System.out.println("Brand:"+brand);
+        System.out.println("Price:"+price);
 
     }
 }
 public class Pri{
-    public static void main(String[] args){
-        Calculator c=new Calculator();
-        c.n1=15;
-        c.n2=15;
-        c.sum();
-
-    }
-
+	public static void main(String[] args){
+        Mobile m=new Mobile();
+        m.brand="Samsung s24 ultraa";
+        m.price=150000;
+        m.details();
+	}
 }
+
