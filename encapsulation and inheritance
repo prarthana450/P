@@ -1,0 +1,44 @@
+program using encapsulation and inheritance to access private variable toprint the person name and salary
+
+class person{
+    private String n;
+    private double sal;
+    
+    public String getn(){
+        return n;
+    }
+    public void setn(String n){
+        this.n=n;
+        
+    }
+    public double getsal(){
+        return sal;
+    }
+    public void setsal(double sal){
+        this.sal=sal;
+        
+    }
+    
+}
+class employee extends person{
+    public void details(){
+        System.out.println("name:"+getn());
+        System.out.println("salary:"+getsal());
+    }
+}
+public class Main{
+    public static void main(String args[]){
+        employee e=new employee();
+        e.setn("Kumar");
+        e.setsal(50000);
+        e.details();
+    }
+}
+
+
+
+
+
+
+
+
