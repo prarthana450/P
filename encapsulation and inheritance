@@ -29,7 +29,7 @@ class employee extends person{
 public class Main{
     public static void main(String args[]){
         employee e=new employee();
-        e.setn("Kumar");
+        e.setn("PRARTHANA");
         e.setsal(50000);
         e.details();
     }
