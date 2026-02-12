@@ -1,0 +1,76 @@
+package payment;
+
+import java.util.Scanner;
+interface payment{
+    void Process(double amount);
+}
+class UPI implements payment{
+    @Override
+    public void Process(double amount){
+        System.out.println("UPI payment successfull");
+        System.out.printf("Amount deposited:%.3f%n",amount);
+    }
+}
+class credit implements payment{
+    private String ctype;
+    public credit(String ctype){
+        this.ctype=ctype;
+    }
+    @Override
+    public void Process(double amount){
+        System.out.println(ctype+ "card payment successfull");
+        System.out.printf("Amount deposited:%.3f%n",amount);
+    }
+}
+class cash implements payment{
+    @Override
+    public void Process(double amount){
+        System.out.println("Cash payment successfull");
+        System.out.printf("Amount deposited:%.3f%n",amount);
+    }
+}
+public class Main{
+    public static void main(String args[]){
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter the amount deposit");
+        double amount=sc.nextDouble();
+        System.out.println("Enter the payment method");
+        System.out.println("Choose option from 1 to 4");
+        System.out.println("1.UPI");
+        System.out.println("2.CREDIT CARD");
+        System.out.println("3.DEBIT CARD");
+        System.out.println("4.CASH");
+        int choice=sc.nextInt();
+        payment method=null;
+        switch(choice){
+            case 1:
+            method=new UPI();
+            break;
+            
+        case 2:
+            method=new credit("Credit");
+            break;
+        case 3:
+            method=new credit("debit");
+            break;
+        case 4:
+            method=new cash();
+            break;
+        default:
+            System.out.println("invalid choice");
+            return; 
+            
+        }
+        
+        method.Process(amount);
+    }
+}
+
+
+
+
+
+
+
+
+
