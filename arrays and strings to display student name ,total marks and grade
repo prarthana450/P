@@ -1,0 +1,29 @@
+//arrays and strings to display student name ,total marks and grade
+public class Student {
+    public static void main(String[] args) {
+        
+        String[] names = {"Alice", "Bob", "Carol", "David", "Eva"}
+        int[][] marks = {
+            {55, 35, 40, 55, 50},
+            {78, 72, 80, 68, 75},
+            {85, 90, 88, 92, 87},
+            {60, 55, 70, 65, 58},
+            {95, 98, 92, 96, 99}
+        };
+        System.out.println("Name\t\tTotal\tGrade");
+        for (int i = 0; i < 5; i++) {
+            int total = 0;
+            for (int j = 0; j < 5; j++) {
+                total += marks[i][j];
+            }
+            double avg = total / 5.0;
+            char grade;
+            if      (avg >= 90) grade = 'A';
+            else if (avg >= 80) grade = 'B';
+            else if (avg >= 70) grade = 'C';
+            else if (avg >= 60) grade = 'D';
+            else                grade = 'F';
+            System.out.println(names[i] + "\t\t" + total + "\t" + grade);
+        }
+    }
+}
