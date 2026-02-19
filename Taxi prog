@@ -1,0 +1,170 @@
+package pp;
+import java.util.*;
+
+class CabNotAvailableException extends Exception {
+    public CabNotAvailableException(String message) {
+        super(message);
+    }
+}
+
+class taxi {
+
+    static int bookingId = 1;
+
+    static int taxi1 = 0, taxi2 = 0, taxi3 = 0, taxi4 = 0;
+    static int taxi1Book = 0, taxi2Book = 0, taxi3Book = 0, taxi4Book = 0;
+
+    static int[] taxiEarning = new int[4];
+
+    static class Taxi {
+        int customerId;
+        String pickupPoint;
+        String dropPoint;
+        int pickupTime;
+    }
+
+    static class Booking {
+        int bookingId;
+        int customerId;
+        String from;
+        String to;
+        int pickupTime;
+        int dropTime;
+        int amount;
+    }
+
+    static Booking[][] bookings = new Booking[4][100];
+
+    static int distance(String a, String b) {
+        return Math.abs(a.charAt(0) - b.charAt(0));
+    }
+
+    static void decrement() {
+        if (taxi1 > 0) taxi1--;
+        if (taxi2 > 0) taxi2--;
+        if (taxi3 > 0) taxi3--;
+        if (taxi4 > 0) taxi4--;
+    }
+
+    static void allocateBooking(Taxi t) throws CabNotAvailableException {
+
+        // If Cab 1 specifically not available
+        if (taxi1 != 0) {
+            throw new CabNotAvailableException("Cab 1 is currently not available!");
+        }
+
+        // If all taxis busy
+        if (taxi1 != 0 && taxi2 != 0 && taxi3 != 0 && taxi4 != 0) {
+            throw new CabNotAvailableException("All taxis are busy! Please try later.");
+        }
+
+        Booking b = new Booking();
+        b.bookingId = bookingId++;
+        b.customerId = t.customerId;
+        b.from = t.pickupPoint;
+        b.to = t.dropPoint;
+        b.pickupTime = t.pickupTime;
+        b.dropTime = distance(t.pickupPoint, t.dropPoint) + t.pickupTime;
+
+        if (b.dropTime > 12) {
+            b.dropTime -= 12;
+        }
+
+        b.amount = 100 + ((distance(t.pickupPoint, t.dropPoint) * 15) - 5) * 10;
+
+        if (taxi1 == 0) {
+            bookings[0][taxi1Book++] = b;
+            taxi1 = distance(t.pickupPoint, t.dropPoint);
+            taxiEarning[0] += b.amount;
+            System.out.println("Taxi 1 is allocated");
+        } else if (taxi2 == 0) {
+            bookings[1][taxi2Book++] = b;
+            taxi2 = distance(t.pickupPoint, t.dropPoint);
+            taxiEarning[1] += b.amount;
+            System.out.println("Taxi 2 is allocated");
+        } else if (taxi3 == 0) {
+            bookings[2][taxi3Book++] = b;
+            taxi3 = distance(t.pickupPoint, t.dropPoint);
+            taxiEarning[2] += b.amount;
+            System.out.println("Taxi 3 is allocated");
+        } else if (taxi4 == 0) {
+            bookings[3][taxi4Book++] = b;
+            taxi4 = distance(t.pickupPoint, t.dropPoint);
+            taxiEarning[3] += b.amount;
+            System.out.println("Taxi 4 is allocated");
+        } else {
+            throw new CabNotAvailableException("Only one cab was available and now it's also busy!");
+        }
+
+        decrement();
+    }
+
+    static void display() {
+
+        for (int i = 0; i < 4; i++) {
+            int count = 0;
+            if (i == 0) count = taxi1Book;
+            if (i == 1) count = taxi2Book;
+            if (i == 2) count = taxi3Book;
+            if (i == 3) count = taxi4Book;
+
+            if (count > 0) {
+                System.out.println("\nTaxi " + (i + 1));
+                System.out.println("Total Earning = " + taxiEarning[i]);
+                System.out.println("BookingId  CustomerId  From  To  Pickup  Drop  Amount");
+
+                for (int j = 0; j < count; j++) {
+                    Booking b = bookings[i][j];
+                    System.out.println(b.bookingId + "        " + b.customerId + "       "
+                            + b.from + "     " + b.to + "     "
+                            + b.pickupTime + "     " + b.dropTime + "     "
+                            + b.amount);
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n1. Booking  2. Details  3. Exit");
+            System.out.print("Enter Choice: ");
+            int choice = sc.nextInt();
+
+            if (choice == 1) {
+                System.out.print("Number of Bookings: ");
+                int count = sc.nextInt();
+
+                for (int i = 0; i < count; i++) {
+                    Taxi t = new Taxi();
+
+                    System.out.print("Customer Id: ");
+                    t.customerId = sc.nextInt();
+
+                    System.out.print("Pickup Point: ");
+                    t.pickupPoint = sc.next();
+
+                    System.out.print("Drop Point: ");
+                    t.dropPoint = sc.next();
+
+                    System.out.print("Pickup Time: ");
+                    t.pickupTime = sc.nextInt();
+
+                    try {
+                        allocateBooking(t);
+                    } catch (CabNotAvailableException e) {
+                        System.out.println("Exception: " + e.getMessage());
+                    }
+                }
+            } else if (choice == 2) {
+                display();
+            } else {
+                break;
+            }
+        }
+
+        sc.close();
+    }
+}
