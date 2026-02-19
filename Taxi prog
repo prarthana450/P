@@ -48,12 +48,10 @@ class taxi {
 
     static void allocateBooking(Taxi t) throws CabNotAvailableException {
 
-        // If Cab 1 specifically not available
         if (taxi1 != 0) {
             throw new CabNotAvailableException("Cab 1 is currently not available!");
         }
 
-        // If all taxis busy
         if (taxi1 != 0 && taxi2 != 0 && taxi3 != 0 && taxi4 != 0) {
             throw new CabNotAvailableException("All taxis are busy! Please try later.");
         }
